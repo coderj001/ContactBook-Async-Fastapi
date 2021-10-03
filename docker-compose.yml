@@ -5,6 +5,8 @@ services:
     build:
       context: .
     container_name: api
+    command: >
+      sh -c "uvicorn main:app --reload"
     ports:
       - "8000:8000"
     volumes:

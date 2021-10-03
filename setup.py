@@ -6,14 +6,13 @@ from setuptools import setup
 
 
 def read(fname: str = None) -> str:
-    """
-        read files with in dir
-    """
+    """read files with in dir"""
     if fname:
         return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-def markdown_read(fname):
+def markdown_read(fname: str = None) -> None:
+    """ Output markdown file in good format """
     console = Console()
     console.print(Markdown(read(fname)))
     exit()
