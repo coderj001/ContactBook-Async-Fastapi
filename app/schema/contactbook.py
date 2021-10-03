@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class ContactBookResSchema(BaseModel):
@@ -24,6 +25,21 @@ class ContactBookSchema(BaseModel):
     class Config:
         schema_extra = {
             "example": {
+                "name": "sample_name",
+                "email": "sample@name.com",
+            }
+        }
+
+
+class ContactBookUpdateSchema(BaseModel):
+    id: int
+    name: Optional[str] = None
+    email: Optional[str] = None
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "id": 1,
                 "name": "sample_name",
                 "email": "sample@name.com",
             }

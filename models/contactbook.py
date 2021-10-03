@@ -1,6 +1,5 @@
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from core.application import get_session
 
 from models.base import AuditMixin
 
@@ -19,4 +18,13 @@ class ContactBook(AuditMixin):
 
     @classmethod
     async def get(cls, session: AsyncSession, **kwargs):
-        pass
+        if kwargs.get('id'):
+            ct_book = await session.execute(
+                select(ContactBook).where(ContactBook.id == kwargs.get('id')).limit(1))
+        return ct_book
+
+    @classmethod
+    async def delete(cls, session: AsyncSession, **kwargs):
+        if kwargs.get('id'):
+            await session.execute(
+                delete(ContactBook).where(ContactBook.id == kwargs.get('id')))

@@ -10,12 +10,12 @@ app = create_api()
 app.include_router(contactbook, prefix="/contactbook")
 
 
-@app.on_event("startup")
-async def startup():
-    """
-    Create db tables
-    """
-    await init_models()
+# @app.on_event("startup")
+# async def startup():
+#     """
+#     Create db tables
+#     """
+#     await init_models()
 
 if __name__ == "__main__":
     uvicorn.run(
