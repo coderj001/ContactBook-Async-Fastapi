@@ -1,30 +1,10 @@
-from datetime import datetime
+from sqlalchemy import Column, String
 
-from sqlalchemy import Column, DateTime, Integer, String
-
-from database import Base
+from models.base import AuditMixin
 
 
-class AuditMixin(Base):
-    __abstract__ = True
+class ContactBook(AuditMixin):
+    __tablename__ = "contactbook"
 
-    id = Column(Integer, primary_key=True)
-
-    created_at = Column(
-        DateTime(),
-        default=datetime.now()
-    )
-    updated_at = Column(
-        DateTime(),
-        default=datetime.now(),
-        onupdate=datetime.now()
-    )
-
-    def __repr__(self):
-        return f"{self.__class__.__name__}-{self.id}"
-
-
-class Sample(AuditMixin):
-    __tablename__ = "Sample"
-
-    username = Column(String(), server_default='', nullable=False)
+    name = Column(String(), server_default='', nullable=False)
+    emal_address = Column(String(), unique=True, nullable=False)

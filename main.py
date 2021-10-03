@@ -1,13 +1,13 @@
 import uvicorn
 
-from app.main import router as rt
+from app.contactbook import router as contactbook
 from core.application import create_api
 from core.config import config
-from database import init_models
+from core.database import init_models
 
 app = create_api()
 
-app.include_router(rt)
+app.include_router(contactbook, prefix="/contactbook")
 
 
 @app.on_event("startup")
