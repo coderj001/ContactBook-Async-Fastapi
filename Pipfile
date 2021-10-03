@@ -9,6 +9,7 @@ sqlalchemy = "*"
 uvicorn = "*"
 asyncpg = "*"
 rich = "*"
+alembic = "*"
 
 [dev-packages]
 ipython = "*"

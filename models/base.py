@@ -8,7 +8,7 @@ from core.database import Base
 class AuditMixin(Base):
     __abstract__ = True
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
 
     created_at = Column(
         DateTime(),

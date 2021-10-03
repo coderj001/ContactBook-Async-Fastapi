@@ -29,5 +29,6 @@ setup(
         'psycopg2'
         'asyncpg',
         'rich',
+        'alembic',
     ),
 )
