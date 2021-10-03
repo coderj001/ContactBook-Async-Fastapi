@@ -5,8 +5,12 @@ from rich.markdown import Markdown
 from setuptools import setup
 
 
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+def read(fname: str = None) -> str:
+    """
+        read files with in dir
+    """
+    if fname:
+        return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
 def markdown_read(fname):
