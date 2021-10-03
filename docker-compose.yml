@@ -6,7 +6,7 @@ services:
       context: .
     container_name: api
     command: >
-      sh -c "uvicorn main:app --reload"
+      sh -c "python main.py"
     ports:
       - "8000:8000"
     volumes:
