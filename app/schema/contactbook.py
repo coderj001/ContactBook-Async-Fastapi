@@ -32,7 +32,6 @@ class ContactBookSchema(BaseModel):
 
 
 class ContactBookUpdateSchema(BaseModel):
-    id: int
     name: Optional[str] = None
     email: Optional[str] = None
 

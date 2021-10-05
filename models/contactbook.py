@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, delete, select
+from sqlalchemy import Column, String, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.base import AuditMixin
@@ -12,7 +12,7 @@ class ContactBook(AuditMixin):
 
     @classmethod
     async def create(cls, session: AsyncSession, **kwargs):
-        ct_book = ContactBook(**kwargs)
+        ct_book = cls(**kwargs)
         session.add(ct_book)
         return ct_book
 
@@ -20,11 +20,25 @@ class ContactBook(AuditMixin):
     async def get(cls, session: AsyncSession, **kwargs):
         if kwargs.get('id'):
             ct_book = await session.execute(
-                select(ContactBook).where(ContactBook.id == kwargs.get('id')).limit(1))
-        return ct_book
+                select(cls).where(cls.id == kwargs.get('id')))
+            return ct_book.fetchone()[0]
 
     @classmethod
-    async def delete(cls, session: AsyncSession, **kwargs):
+    async def update(cls, session: AsyncSession, **kwargs):
         if kwargs.get('id'):
-            await session.execute(
-                delete(ContactBook).where(ContactBook.id == kwargs.get('id')))
+            id = kwargs.pop('id')
+            ct_book = await session.execute(update(cls).where(cls.id == id).values(**kwargs).returning(cls))
+            return ct_book.fetchone()[0]
+
+    @classmethod
+    async def find(cls, session: AsyncSession, **kwargs):
+        pagination = 10
+        if kwargs.get('page'):
+            page = int(kwargs.pop('page')) - 1
+        else:
+            page = 0
+        if (kwargs.get('name') and kwargs.get('email')) or (kwargs.get('name') or kwargs.get('email')):
+            ct_book = await session.execute(select(cls).where(**kwargs).offset(page*pagination).limit(10))
+        else:
+            ct_book = await session.execute(select(cls.id, cls.name, cls.email).offset(int(page)*pagination).limit(10))
+        return ct_book.fetchmany()
